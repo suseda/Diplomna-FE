@@ -1,5 +1,3 @@
-import { useState } from "react";
-import CheckBox from "./components/CheckBox"
 import Footer from "./components/Footer"
 import NavBar from "./components/NavBar"
 import CheckBoxGroup from "./components/CheckBoxGroup";
