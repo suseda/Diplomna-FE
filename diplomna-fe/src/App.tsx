@@ -1,33 +1,28 @@
-import Footer from "./components/Footer"
-import NavBar from "./components/NavBar"
-import CheckBoxGroup from "./components/CheckBoxGroup";
+import { BrowserRouter,Routes, Route, Navigate } from "react-router-dom";
+
+import Login_page from "./pages/Login_page";
+import Layout from "./components/Layout";
+import Sign_up_page from "./pages/Sign_up_page";
+
+import Home from "./pages/Home";
+
 
 function App() {
-
- 
-
   return (
-    <div>
-      <NavBar />
-      <div>
-        <input type="text" placeholder="Enter name" />
-        <input type="text" placeholder="Enter email" />
-        <input type="text" placeholder="Enter password" />
-        <button className="btn bg-blue-300">Save</button>
-      </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="home" element={<Home />} />
+        </Route>
 
-      <div>
-        <input type="text" placeholder="Enter recipe name" />
-        <input type="text" placeholder="Enter recipe description" />
-        <input type="text" placeholder="Enter time for cooking" />
-        
-        <CheckBoxGroup options={['Soup', 'Meat', 'Vegan', 'Dessert']} />
-        
-        <button className="btn bg-blue-300">Save</button>
-      </div>
-      <Footer />
-    </div>
+        <Route path="/login" element={<Login_page />} />
+        <Route path="/signup" element={<Sign_up_page />} />
+        <Route path="*" element={<Navigate to={"/login"} />} /> 
+      </Routes>
+    </BrowserRouter>
   )
 }
 
 export default App
+
+
