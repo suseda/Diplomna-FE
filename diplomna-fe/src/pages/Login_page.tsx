@@ -1,10 +1,10 @@
 import { useState } from "react";
 import loginSchema from "../validation/login_validation"
 import useAuth from "../hooks/useAuth"
-import axios from "../api/axios";
+import api from "../api/axios";
 import { LOGIN_URL } from "../api/urls";
 import useBearStore from "../hooks/useZustand";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 function Login_page() {
@@ -35,18 +35,22 @@ function Login_page() {
             setValidationError('');
             SetLoginForm({email:'',password:''});
             console.log("Valid data:", validData);
-            const response = await axios.post(LOGIN_URL , JSON.stringify(LoginForm), {
+
+            
+            const response = await api.post(LOGIN_URL , JSON.stringify(LoginForm), {
                 headers: {'Content-Type': 'application/json' }
             });
-            console.log(JSON.stringify(response?.data));
+            console.log(JSON.stringify(response?.data.token));
+
+
             const accessToken = response?.data;
+            sessionStorage.setItem('authToken', accessToken.token);
             setAuth({ ...auth, accessToken: accessToken });
             setIsUserAuth(true);
             navigate("/home");
             } catch (error: any) {
             console.error("Validation error:", error.message);
 
-            
             if(!error?.response)
                 setValidationError('No Server Response');
             else if(error.response?.status === 400)
@@ -61,7 +65,7 @@ function Login_page() {
 
 
     return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
+    <div className="min-h-screen flex items-center justify-center bg-green-400">
         <div className="bg-white p-8 shadow-md rounded-md">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
             <form onSubmit={handleSubmit}>

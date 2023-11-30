@@ -1,28 +1,44 @@
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
-import CheckBoxGroup from "../components/CheckBoxGroup";
+import Recipe from "../components/Recipe";
+
 
 function Home() {
+
+  const recipes = [
+    {
+      title: 'Tarator',
+      photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg',
+      likes: 10,
+      cookingTime: 30,
+    },
+    {
+      title: 'Tarator',
+      photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg',
+      likes: 10,
+      cookingTime: 30,
+    },
+    {
+      title: 'Tarator',
+      photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg',
+      likes: 10,
+      cookingTime: 30,
+    },
+  ];
+
 
   return (
     <div>
       <NavBar />
-      <div>
-        <input type="text" placeholder="Enter name" />
-        <input type="text" placeholder="Enter email" />
-        <input type="text" placeholder="Enter password" />
-        <button className="btn bg-blue-300">Save</button>
-      </div>
-
-      <div>
-        <input type="text" placeholder="Enter recipe name" />
-        <input type="text" placeholder="Enter recipe description" />
-        <input type="text" placeholder="Enter time for cooking" />
-        
-        <CheckBoxGroup options={['Soup', 'Meat', 'Vegan', 'Dessert']} />
-        
-        <button className="btn bg-blue-300">Save</button>
-      </div>
+      {recipes.map((recipe, index) => (
+        <Recipe
+          key={index}
+          title={recipe.title}
+          photoUrl={recipe.photoUrl}
+          likes={recipe.likes}
+          cookingTime={recipe.cookingTime}
+        />
+      ))}
       <Footer />
     </div>
   )
