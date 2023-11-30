@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-
 interface CheckBoxProps {
   text: string;
   name: string;
