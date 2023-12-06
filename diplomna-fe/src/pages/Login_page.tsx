@@ -40,7 +40,6 @@ function Login_page() {
             const response = await api.post(LOGIN_URL , JSON.stringify(LoginForm), {
                 headers: {'Content-Type': 'application/json' }
             });
-            console.log(JSON.stringify(response?.data.token));
 
 
             const accessToken = response?.data;

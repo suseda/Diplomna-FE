@@ -8,7 +8,6 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem('authToken');
-    console.log(token)
 
     if (token && token !== undefined && token !== null) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -25,7 +24,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401 || error.response.status === 403) {
-      console.log('Token expired. Redirecting to login.');
       localStorage.removeItem('authToken');
       const navigate = useNavigate();
       navigate("/login");
