@@ -40,11 +40,12 @@ function Login_page() {
             const response = await api.post(LOGIN_URL , JSON.stringify(LoginForm), {
                 headers: {'Content-Type': 'application/json' }
             });
+            console.log(response?.data);
 
-
-            const accessToken = response?.data;
-            sessionStorage.setItem('authToken', accessToken.token);
-            setAuth({ ...auth, accessToken: accessToken });
+            const accessToken = response?.data.token;
+            const user = response?.data.user;
+            sessionStorage.setItem('authToken', accessToken);
+            setAuth({ ...auth, accessToken: accessToken, user: user });
             setIsUserAuth(true);
             navigate("/home");
             } catch (error: any) {
