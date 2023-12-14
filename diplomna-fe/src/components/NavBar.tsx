@@ -14,14 +14,12 @@ function NavBar({onSearch}: NavBarProps)
 
     const handleLogOut = () =>
     {
-      console.log("Log out");
       sessionStorage.removeItem('authToken');
       navigate("/login");
     }
 
     const handleProfileEntry = () =>
     {
-      console.log("Profile entry");
       navigate("/profile");
     }
 

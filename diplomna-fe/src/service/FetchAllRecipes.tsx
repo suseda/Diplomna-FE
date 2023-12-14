@@ -1,5 +1,5 @@
 import axios from "../api/axios";
-import { ALL_RECIPES_URL } from "../api/urls";
+import { ALL_RECIPES_WITH_PAGINATION_URL } from "../api/urls";
 
 interface Recipe {
   title: string;
@@ -8,13 +8,23 @@ interface Recipe {
   type: string;
 }
 
-const FetchAllRecipes = async (): Promise<Recipe[]> => {
+const FetchAllRecipes = async (term: string, page: number = 0): Promise<Recipe[]> => {
   try {
-    const response = await axios.get(ALL_RECIPES_URL, {
+    
+    console.log(page);
+
+    let NEW_URL = `${ALL_RECIPES_WITH_PAGINATION_URL}/${page}`;
+
+    if(term !== "")
+      NEW_URL = `${ALL_RECIPES_WITH_PAGINATION_URL}/${page}/${term}`;
+
+
+    console.log(NEW_URL);  
+    const response = await axios.get(NEW_URL, {
       headers: { 'Content-Type': 'application/json' }
     });
 
-    if (response === null || response === undefined) {
+    if (!response || !response.data) {
       console.log("Error");
       return [];
     }
