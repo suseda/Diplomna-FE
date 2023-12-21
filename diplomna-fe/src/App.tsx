@@ -6,6 +6,7 @@ import Sign_up_page from "./pages/Sign_up_page";
 
 import Home from "./pages/Home";
 import Profile from "./pages/Profile_page";
+import Favourites from "./pages/Favourites_page";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/favourites" element={<Favourites />} />
         </Route>
         <Route path="/login" element={<Login_page />} />
         <Route path="/signup" element={<Sign_up_page />} />

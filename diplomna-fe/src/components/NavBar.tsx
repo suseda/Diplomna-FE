@@ -3,7 +3,7 @@ import logo from "../images/logo-no-background.png"
 import { useState } from "react";
 
 interface NavBarProps {
-  onSearch: (term: string) => void;
+  onSearch: (word: string) => void;
 }
 
 function NavBar({onSearch}: NavBarProps) 
@@ -23,10 +23,15 @@ function NavBar({onSearch}: NavBarProps)
       navigate("/profile");
     }
 
+    const handleFavouritesEntry = () =>
+    {
+      navigate("/favourites");
+    }
+
     const handleSearch = (e: { target: { value: any; }; }) => {
-      const term = e.target.value;
-      setSearchTerm(term);
-      onSearch(term);
+      const word = e.target.value;
+      setSearchTerm(word);
+      onSearch(word);
     };
 
 
@@ -53,7 +58,7 @@ function NavBar({onSearch}: NavBarProps)
           </label>
           <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-green-500 rounded-box w-52 text-center">
               <li><a onClick={handleProfileEntry}>Profile</a></li>
-              <li><a>Favourites</a></li>
+              <li><a onClick={handleFavouritesEntry}>Favourites</a></li>
               <li><a>Search by Products</a></li>
               <li><a className="bg-warning hover:bg-yellow-300" onClick={handleLogOut}>Log Out</a></li>
           </ul>

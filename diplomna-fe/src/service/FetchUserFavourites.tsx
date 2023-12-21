@@ -1,9 +1,9 @@
 import axios from "../api/axios";
-import { USER_RECIPES } from "../api/urls";
+import { USER_FAVOURITES } from "../api/urls";
 
-const FetchUserRecipes = async (id:number) =>
+const FetchUserFavourites = async (id:number) =>
 {
-    const NEW_URL = `${USER_RECIPES}/${id}`;
+    const NEW_URL = `${USER_FAVOURITES}/${id}`;
 
     try {
         const response = await axios.get(NEW_URL, {
@@ -18,9 +18,9 @@ const FetchUserRecipes = async (id:number) =>
         return response.data;
     
       } catch (error) {
-        console.error("Error fetching user recipes:", error);
+        console.error("Error fetching user favourites:", error);
         return [];
       }
 }
 
-export default FetchUserRecipes;
+export default FetchUserFavourites;

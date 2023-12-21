@@ -2,8 +2,8 @@ import { GiCook } from "react-icons/gi";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, AuthContextValue } from "../api/AuthProvider";
 import "../styles.css";
-import FetchUserRecipes from "../service/FetchUserRecipes";
 import Recipe from "../components/Recipe";
+import FetchUserFavourites from "../service/FetchUserFavourites";
 
 interface Recipe {
   name: string;
@@ -12,7 +12,7 @@ interface Recipe {
   time_for_cooking: number;
 }
 
-function Profile() {
+function Favourites() {
   const { auth } = useContext(AuthContext) as AuthContextValue;
 
   const [userRecipes, setUserRecipes] = useState<Recipe[]>([]);
@@ -20,7 +20,7 @@ function Profile() {
   const user = auth.user;
 
   const fetchInfo = async () => {
-    const recipes: Recipe[] = await FetchUserRecipes(user.id);
+    const recipes: Recipe[] = await FetchUserFavourites(user.id);
     setUserRecipes(recipes);
   };
 
@@ -30,7 +30,7 @@ function Profile() {
 
   return (
     <div className="relative">
-      <div className="absolute top-0 flex flex-col items-center justify-center bg-profile-img bg-cover">
+      <div className="absolute top-0 flex flex-col items-center justify-center bg-favourites-img bg-cover">
         <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg">
           <div className="flex items-center justify-center">
             <GiCook className="h-14 w-12" />
@@ -39,12 +39,12 @@ function Profile() {
             <div className="text-xl font-medium text-black">
               Welcome {user.name}
             </div>
-              <p className="text-slate-500">See your recipes here!</p>
+              <p className="text-slate-500">See your favourites recipes here!</p>
             </div>
         </div>
 
         <div className="bg-green-500 rounded-md w-1/3 mt-4 p-2 mb-4">
-          <h1 className="font-bold">Your recipes:</h1>
+          <h1 className="font-bold">Your favourite recipes:</h1>
         </div>
 
         {Array.isArray(userRecipes) && userRecipes.length > 0 ? 
@@ -64,7 +64,7 @@ function Profile() {
             ))}
             </div>
           ) : (
-            <h1 className="bg-green-500 rounded-md w-1/3">You don't have recipes yet</h1>
+            <h1 className="bg-green-500 rounded-md w-1/3">First you must add your favourite recipes</h1>
           )}
         
       </div>
@@ -72,5 +72,4 @@ function Profile() {
   );
 }
 
-export default Profile;
-
+export default Favourites;

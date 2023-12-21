@@ -1,25 +1,22 @@
 import axios from "../api/axios";
 import { ALL_RECIPES_WITH_PAGINATION_URL } from "../api/urls";
 
-interface Recipe {
-  title: string;
+export interface RecipeRes {
+  name: string;
   likes: number;
-  cookingTime: number;
+  time_for_cooking: number;
   type: string;
 }
 
-const FetchAllRecipes = async (term: string, page: number = 0): Promise<Recipe[]> => {
+const FetchAllRecipes = async (searchedWord: string, page: number): Promise<RecipeRes[]> => {
   try {
-    
-    console.log(page);
 
-    let NEW_URL = `${ALL_RECIPES_WITH_PAGINATION_URL}/${page}`;
+    let NEW_URL = `${ALL_RECIPES_WITH_PAGINATION_URL}?page=${page}`;
 
-    if(term !== "")
-      NEW_URL = `${ALL_RECIPES_WITH_PAGINATION_URL}/${page}/${term}`;
+    if(searchedWord !== "")
+      NEW_URL = `${ALL_RECIPES_WITH_PAGINATION_URL}WithSearch?page=${page}&searchedWord=${searchedWord}`;
 
-
-    console.log(NEW_URL);  
+  
     const response = await axios.get(NEW_URL, {
       headers: { 'Content-Type': 'application/json' }
     });

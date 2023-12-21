@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../api/axios";
 import { USERS } from "../api/urls";
 
 const FetchUsers = async () =>
