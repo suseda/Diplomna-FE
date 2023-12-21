@@ -20,7 +20,7 @@ function CreateRecipePage()
                 
                 <button className="btn bg-blue-300">Save</button>
             </div>
-        </div>
+    </div>
     )
 }
 
