@@ -36,6 +36,7 @@ function Home() {
           searchRecipes.map((recipe, index) => (
             <Recipe
               key={index}
+              id={recipe.id}
               name={recipe.name}
               photoUrl={'https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg'}
               likes={recipe.likes}

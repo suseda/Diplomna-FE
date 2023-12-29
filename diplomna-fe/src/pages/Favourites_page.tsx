@@ -6,6 +6,7 @@ import Recipe from "../components/Recipe";
 import FetchUserFavourites from "../service/FetchUserFavourites";
 
 interface Recipe {
+  id: number;
   name: string;
   likes: number;
   type: string;
@@ -54,6 +55,7 @@ function Favourites() {
                 (userRecipes.map((recipe, index) => (
                 <Recipe
                   key={index}
+                  id={recipe.id}
                   name={recipe.name}
                   photoUrl={
                     "https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg"

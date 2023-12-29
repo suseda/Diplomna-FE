@@ -2,6 +2,7 @@ import axios from "../api/axios";
 import { ALL_RECIPES_WITH_PAGINATION_URL } from "../api/urls";
 
 export interface RecipeRes {
+  id: number;
   name: string;
   likes: number;
   time_for_cooking: number;

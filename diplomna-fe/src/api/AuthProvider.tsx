@@ -1,9 +1,11 @@
 import { ReactNode, createContext, useState, Dispatch, SetStateAction } from 'react';
 
 export interface RecipeProps {
+  id: number;
   name: string;
   photoUrl: string;
   likes: number;
+  description: string;
   time_for_cooking: number;
 }
 
