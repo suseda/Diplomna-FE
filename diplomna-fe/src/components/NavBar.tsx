@@ -1,10 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import logo from "../images/logo-no-background.png"
 import { useState } from "react";
-
-interface NavBarProps {
-  onSearch: (word: string) => void;
-}
+import { NavBarProps } from "../interface";
 
 function NavBar({onSearch}: NavBarProps) 
 {

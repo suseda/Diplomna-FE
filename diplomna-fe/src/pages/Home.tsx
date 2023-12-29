@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
-import FetchAllRecipes, { RecipeRes } from '../service/FetchAllRecipes';
+import FetchAllRecipes from '../service/FetchAllRecipes';
 import Recipe from '../components/Recipe';
 import Pagination from '../components/Pagination';
 import FetchRecipesCnt from '../service/FetchRecipesCnt';
+import { RecipeProps } from '../interface';
 
 function Home() {
-  const [searchRecipes, setSearchedRecipes] = useState<RecipeRes[]>([]);
+  const [searchRecipes, setSearchedRecipes] = useState<RecipeProps[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [searchedWord,setSearchWord] = useState<string>('');
 
   const handleSearch = async (searchedWord: string) => {
     setSearchWord(searchedWord);
-    const recipes: RecipeRes[] = await FetchAllRecipes(searchedWord, currentPage);
+    const recipes: RecipeProps[] = await FetchAllRecipes(searchedWord, currentPage);
     const pages: number = await FetchRecipesCnt(searchedWord);
     setSearchedRecipes(recipes);
     setTotalPages(pages+1);
@@ -40,8 +41,9 @@ function Home() {
               name={recipe.name}
               photoUrl={'https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg'}
               likes={recipe.likes}
-              time_for_cooking={recipe.time_for_cooking}
-            />
+              time_for_cooking={recipe.time_for_cooking} 
+              type={recipe.type} 
+              description={recipe.description}            />
           ))
         ) : (
           <p>No recipes found.</p>

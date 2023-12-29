@@ -1,20 +1,22 @@
 import { useContext, useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
-import { FaRegStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import UpdateLikes from "../service/UpdateLikes";
-import AuthContext, { AuthContextValue, RecipeProps } from "../api/AuthProvider";
+import AuthContext from "../api/AuthProvider";
 import UpdateUserFavourites from "../service/UpdateUserFavourites";
 import FetchRecipe from "../service/FetchRecipe";
 import { useParams } from "react-router-dom";
+import { AuthContextValue, RecipeProps } from "../interface";
 
 function View_recipe_page() {
   const { id } = useParams();
   const { auth } = useContext(AuthContext) as AuthContextValue;
   const [recipe, setRecipe] = useState({} as RecipeProps);
   const [isLiked,setIsLiked] = useState(false);
+  const [isFav,setIsFav] = useState(false);
   const user = auth.user;
 
-  const [recipeLikes, setRecipeLikes] = useState(recipe.likes);
+  const [recipeLikes, setRecipeLikes] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,23 +32,34 @@ function View_recipe_page() {
   }, [id, recipeLikes]);
 
   const handleLike = async () => {
-    // SetRecipeLikes(recipeLikes + 1);
-    // await UpdateLikes(recipeLikes);
-    console.log("Recipe like");
-    console.log(recipe.likes + 1);
-    setIsLiked(true);
+    if (!isLiked) {
+      let likes = recipeLikes + 1;
+      setRecipeLikes(likes);
+      //await UpdateLikes(recipeLikes);
+      console.log("Recipe liked");
+      console.log(recipeLikes);
+    } else {
+      console.log(recipeLikes);
+      let likes = recipeLikes - 1;
+      setRecipeLikes(likes);
+      //await UpdateLikes(recipe.id,recipeLikes);
+      console.log("Like removed");
+      console.log(recipeLikes);
+    }
+    setIsLiked(!isLiked);
   };
 
-  const handleDislike = async () => {
-    setRecipeLikes(recipeLikes - 1);
-    await UpdateLikes(recipeLikes);
-    setIsLiked(false);
-  };
-
+  
   const handleAddToFavourites = async () => {
     // await UpdateUserFavourites(user.id,recipe.id);
-    console.log("Recipe like added to fav");
+    setIsFav(true);
+    console.log("Recipe added to fav");
   };
+
+  const handleRemoveFromFavourites = async () => {
+    setIsFav(false);
+    console.log("Recipe removed from fav");
+  }
 
   return (
     <div>
@@ -60,24 +73,28 @@ function View_recipe_page() {
         <div className="row-start-1 row-span-1 col-start-1 col-span-3 flex items-center justify-center">
             <h1>{recipe.likes}</h1>
             <button
-                className={`btn-circle bg-white m-2 flex items-center justify-center ${isLiked ? 'text-red-500' : ''}`}
-                onClick={isLiked ? handleDislike : handleLike}
+                className="btn-circle bg-rose-400 m-2 flex items-center justify-center"
+                onClick={handleLike}
             >
-                <FaHeart  style={{ color: isLiked ? 'red' : 'inherit' }} />
+                <FaHeart  style={{ color: isLiked ? 'red' : 'white' }} />
             </button>
         </div>
 
         <div className="row-start-2 row-span-1 col-start-1 col-span-3 flex items-center justify-center">
+          <h1>Add to favourites</h1>
           <button
             className="btn-circle bg-yellow-400 m-2 flex items-center justify-center"
-            onClick={handleAddToFavourites}
+            onClick={isFav? handleRemoveFromFavourites : handleAddToFavourites}
           >
-            <FaRegStar />
+            <FaStar style={{ color: isFav ? 'yellow' : 'white' }} />
           </button>
+        </div>
+        <div className="row-start-3 row-span-1 col-start-1 col-span-3 flex items-center justify-center">
+          <h1>Recipe type: {recipe.description}</h1>
         </div>
       </div>
 
-      <div className="grid grid-rows-2 grid-cols-2 grid-flow-col gap-4">
+      <div className="grid grid-rows-1 grid-cols-2 grid-flow-col gap-4">
         <div className="card w-96 bg-base-100 shadow-xl">
             <figure><img src="https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg" alt="Recipe photo" /></figure>
         </div>

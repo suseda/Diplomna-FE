@@ -1,9 +1,4 @@
-interface CheckBoxProps {
-  text: string;
-  name: string;
-  checked: boolean;
-  onChange: () => void;
-}
+import { CheckBoxProps } from "../interface";
 
 function CheckBox(props: CheckBoxProps) {
   return (

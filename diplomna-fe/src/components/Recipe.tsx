@@ -1,17 +1,9 @@
 import { FC } from 'react';
 import { FaHeart, FaClock } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { RecipePropsWithImg } from '../interface';
 
-
-export interface RecipeProps {
-  id: number;
-  name: string;
-  photoUrl: string;
-  likes: number;
-  time_for_cooking: number;
-}
-
-const Recipe: FC<RecipeProps> = ({id, name, photoUrl, likes, time_for_cooking }) => 
+const Recipe: FC<RecipePropsWithImg> = ({name, photoUrl, likes, time_for_cooking }) => 
 {
 
   return ( 
