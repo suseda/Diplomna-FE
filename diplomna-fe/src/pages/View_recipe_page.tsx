@@ -51,12 +51,13 @@ function View_recipe_page() {
 
   
   const handleAddToFavourites = async () => {
-    // await UpdateUserFavourites(user.id,recipe.id);
+    // await UpdateUserFavourites(user.id,recipe.id,true);
     setIsFav(true);
     console.log("Recipe added to fav");
   };
 
   const handleRemoveFromFavourites = async () => {
+    // await UpdateUserFavourites(user.id,recipe.id,false);
     setIsFav(false);
     console.log("Recipe removed from fav");
   }

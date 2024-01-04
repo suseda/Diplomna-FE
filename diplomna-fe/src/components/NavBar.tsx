@@ -25,6 +25,11 @@ function NavBar({onSearch}: NavBarProps)
       navigate("/favourites");
     }
 
+    const handleCreateRecipeEntry = () =>
+    {
+      navigate("/create-recipe");
+    }
+
     const handleSearch = (e: { target: { value: any; }; }) => {
       const word = e.target.value;
       setSearchTerm(word);
@@ -56,6 +61,7 @@ function NavBar({onSearch}: NavBarProps)
           <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-green-500 rounded-box w-52 text-center">
               <li><a onClick={handleProfileEntry}>Profile</a></li>
               <li><a onClick={handleFavouritesEntry}>Favourites</a></li>
+              <li><a onClick={handleCreateRecipeEntry}>Create Recipe</a></li>
               <li><a>Search by Products</a></li>
               <li><a className="bg-warning hover:bg-yellow-300" onClick={handleLogOut}>Log Out</a></li>
           </ul>

@@ -3,7 +3,7 @@ import { FaHeart, FaClock } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { RecipePropsWithImg } from '../interface';
 
-const Recipe: FC<RecipePropsWithImg> = ({name, photoUrl, likes, time_for_cooking }) => 
+const Recipe: FC<RecipePropsWithImg> = ({id ,name, photoUrl, likes, time_for_cooking }) => 
 {
 
   return ( 
@@ -23,7 +23,7 @@ const Recipe: FC<RecipePropsWithImg> = ({name, photoUrl, likes, time_for_cooking
                     </span>
                 </div>
                 <Link
-                  to={`/view_recipe/1`}
+                  to={`/view_recipe/${id}`}
                   className="btn bg-green-500 w-25 inline-flex items-center justify-center">
                   View Recipe
                 </Link>

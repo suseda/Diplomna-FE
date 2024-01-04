@@ -2,9 +2,9 @@ import { UPDATE_LIKES } from "../api/urls";
 import axios from "../api/axios";
 
 
-const UpdateLikes = async(likes: number) =>
+const UpdateLikes = async(recipeId: number,likes: number) =>
 {
-    let NEW_URL = `${UPDATE_LIKES}?likes=${likes}`;
+    let NEW_URL = `${UPDATE_LIKES}/${recipeId}?likes=${likes}`;
 
     try {
         const response = await axios.patch(NEW_URL, {

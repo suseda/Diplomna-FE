@@ -9,7 +9,7 @@ const FetchRecipesCnt = async (searchedWord: string): Promise<number> => {
     if(searchedWord !== "")
       NEW_URL = `${RECIPES}/${searchedWord}`;
     
-    const response = await axios.get(RECIPES, {
+    const response = await axios.get(NEW_URL, {
       headers: { 'Content-Type': 'application/json' }
     });
 

@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
-type BearsState = {
+type AuthState = {
     isUserAuth: boolean
     setIsUserAuth: (arg: boolean) => void;
   }
 
-const useBearStore = create<BearsState>((set) => ({
+const useAuthStore = create<AuthState>((set) => ({
   isUserAuth: false,
   setIsUserAuth: (args: boolean) => set({ isUserAuth: args})
 }))
 
-export default useBearStore;
+export default useAuthStore;
