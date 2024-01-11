@@ -65,7 +65,7 @@ function Login_page() {
 
 
     return (
-    <div className="min-h-screen flex items-center justify-center bg-green-400">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-200 to-green-500">
         <div className="bg-white p-8 shadow-md rounded-md">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
             <form onSubmit={handleSubmit}>

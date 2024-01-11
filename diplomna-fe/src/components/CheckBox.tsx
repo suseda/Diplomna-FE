@@ -7,7 +7,7 @@ function CheckBox(props: CheckBoxProps) {
         <span className="label-text">{props.text}</span>
         <input
           type="checkbox"
-          className="checkbox checkbox-success"
+          className="checkbox checkbox-warning border-black"
           name={props.name}
           checked={props.checked}
           onChange={props.onChange}

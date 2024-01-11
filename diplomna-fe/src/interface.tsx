@@ -64,3 +64,17 @@ export interface AuthContextValue {
 export interface AuthProviderProps {
     children: ReactNode;
   }
+
+export interface Product
+{
+  name: string,
+  grams: string
+} 
+
+export interface CreateRecipeProps {
+  name: string;
+  time_for_cooking: number;
+  type: string;
+  description: string;
+  products: Product[];
+}

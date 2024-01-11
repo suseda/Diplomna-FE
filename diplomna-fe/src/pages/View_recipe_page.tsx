@@ -32,17 +32,17 @@ function View_recipe_page() {
   }, [id, recipeLikes]);
 
   const handleLike = async () => {
-    if (!isLiked) {
+    if (isLiked) {
       let likes = recipeLikes + 1;
       setRecipeLikes(likes);
-      //await UpdateLikes(recipeLikes);
+      await UpdateLikes(recipe.id,recipeLikes);
       console.log("Recipe liked");
       console.log(recipeLikes);
     } else {
       console.log(recipeLikes);
       let likes = recipeLikes - 1;
       setRecipeLikes(likes);
-      //await UpdateLikes(recipe.id,recipeLikes);
+      await UpdateLikes(recipe.id,recipeLikes);
       console.log("Like removed");
       console.log(recipeLikes);
     }
@@ -51,13 +51,13 @@ function View_recipe_page() {
 
   
   const handleAddToFavourites = async () => {
-    // await UpdateUserFavourites(user.id,recipe.id,true);
+    await UpdateUserFavourites(user.id,recipe.id,true);
     setIsFav(true);
     console.log("Recipe added to fav");
   };
 
   const handleRemoveFromFavourites = async () => {
-    // await UpdateUserFavourites(user.id,recipe.id,false);
+    await UpdateUserFavourites(user.id,recipe.id,false);
     setIsFav(false);
     console.log("Recipe removed from fav");
   }

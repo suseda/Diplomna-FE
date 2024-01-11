@@ -24,9 +24,8 @@ function Profile() {
   }, []);
 
   return (
-    <div className="relative">
-      <div className="absolute top-0 flex flex-col items-center justify-center bg-profile-img bg-cover">
-        <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg">
+      <div className="top-0 flex flex-col items-center justify-center bg-profile-img bg-cover">
+        <div className="mt-4 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg">
           <div className="flex items-center justify-center">
             <GiCook className="h-14 w-12" />
           </div>
@@ -38,7 +37,7 @@ function Profile() {
             </div>
         </div>
 
-        <div className="bg-green-500 rounded-md w-1/3 mt-4 p-2 mb-4">
+        <div className="bg-green-500 rounded-md w-1/3 mt-4 p-2 mb-4 flex items-center justify-center">
           <h1 className="font-bold">Your recipes:</h1>
         </div>
 
@@ -63,7 +62,6 @@ function Profile() {
           )}
         
       </div>
-    </div>
   );
 }
 

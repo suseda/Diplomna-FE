@@ -30,9 +30,9 @@ function Home() {
   }, [currentPage]);
 
   return (
-    <div>
+    <div className='bg-gradient-to-r from-green-200 to-green-400'>
       <NavBar onSearch={handleSearch} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 flex-grow">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 flex-grow bg-gradient-to-r">
         {Array.isArray(searchRecipes) && searchRecipes.length > 0 ? (
           searchRecipes.map((recipe, index) => (
             <Recipe
