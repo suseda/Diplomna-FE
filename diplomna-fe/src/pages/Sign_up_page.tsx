@@ -8,7 +8,7 @@ import {REGISTER_URL} from "../api/urls";
 function Sign_up_page() {
 
     const [SignupForm,SetLoginForm] = useState({
-        "username": "",
+        "name": "",
         "email": "",
         "password": ""
     })
@@ -29,7 +29,7 @@ function Sign_up_page() {
         try {
             const validData = signupSchema.parse(SignupForm);
             setValidationError(null);
-            SetLoginForm({username:'',email:'',password:''});
+            SetLoginForm({name:'',email:'',password:''});
             console.log("Valid data:", validData);
             const response = await axios.post(REGISTER_URL , JSON.stringify(SignupForm), {
                 headers: {'Content-Type': 'application/json' }
@@ -48,14 +48,14 @@ function Sign_up_page() {
             <h2 className="text-2xl font-bold mb-4">Sign In</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label htmlFor="username" className="block mb-1">Username:</label>
+                    <label htmlFor="name" className="block mb-1">name:</label>
                     <input 
                         type="text" 
-                        placeholder="Enter your username" 
-                        required id="username" name="username" 
+                        placeholder="Enter your name" 
+                        required id="name" name="name" 
                         className="w-full border-2 border-gray-300 focus:border-blue-300 focus:outline-none rounded-md px-3 py-2 " 
                         onChange={FormChange} 
-                        value={SignupForm.username} 
+                        value={SignupForm.name} 
                     />
 
                 </div>
