@@ -32,6 +32,7 @@ export interface NavBarProps {
 
 export interface CheckBoxGroupProps {
     options: string[];
+    handleType: (option: string) => void;
   }
 
 export interface CheckBoxProps {
@@ -67,8 +68,9 @@ export interface AuthProviderProps {
 
 export interface Product
 {
-  name: string,
-  grams: string
+  productName: string,
+  grams: string,
+  onRemove?: (arg: string) => void;
 } 
 
 export interface CreateRecipeProps {
@@ -77,4 +79,8 @@ export interface CreateRecipeProps {
   type: string;
   description: string;
   products: Product[];
+}
+
+export interface ProductNameProps {
+  name: string;
 }

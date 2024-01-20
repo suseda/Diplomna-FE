@@ -7,7 +7,7 @@ import {REGISTER_URL} from "../api/urls";
 
 function Sign_up_page() {
 
-    const [SignupForm,SetLoginForm] = useState({
+    const [SignupForm,SetSignupForm] = useState({
         "name": "",
         "email": "",
         "password": ""
@@ -18,7 +18,7 @@ function Sign_up_page() {
     const FormChange = (event: { target: { name: any; value: any; }; }) => {
   
         const { name, value } = event.target;
-        SetLoginForm((prevForm) => ({
+        SetSignupForm((prevForm) => ({
           ...prevForm,
           [name]: value
         }));
@@ -29,7 +29,7 @@ function Sign_up_page() {
         try {
             const validData = signupSchema.parse(SignupForm);
             setValidationError(null);
-            SetLoginForm({name:'',email:'',password:''});
+            SetSignupForm({name:'',email:'',password:''});
             console.log("Valid data:", validData);
             const response = await axios.post(REGISTER_URL , JSON.stringify(SignupForm), {
                 headers: {'Content-Type': 'application/json' }
@@ -88,7 +88,7 @@ function Sign_up_page() {
                         value="Sign up" 
                     />
                 </div>
-                {validationError && <p className="text-red-500">{validationError}</p>}
+                <div className="w-1/4 flex items-center justify-center">{validationError && <p className="text-red-500">{validationError}</p>}</div>
                 <div className="text-center">
                     <a className="text-blue-500" href="/login">Already have an acount?</a>
                 </div>
