@@ -8,6 +8,9 @@ function NavBar({onSearch}: NavBarProps)
 
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
+    const [type, setType] = useState("None");
+
+    const types = ["None","Soup", "Meat","Vegan","Dessert"];
 
     const handleLogOut = () =>
     {
@@ -33,8 +36,15 @@ function NavBar({onSearch}: NavBarProps)
     const handleSearch = (e: { target: { value: any; }; }) => {
       const word = e.target.value;
       setSearchTerm(word);
-      onSearch(word);
+      onSearch(word,type);
     };
+
+    const handleTypeSearch = (e: {target: {value: any};}) =>
+    {
+      const recipeType = e.target.value;
+      setType(recipeType);
+      onSearch(searchTerm,recipeType);
+    }
 
 
     return (
@@ -43,6 +53,12 @@ function NavBar({onSearch}: NavBarProps)
           <h1 className="bg-green-900 rounded-md px-5 py-5 text-sm font-big text-white"><span className="text-warning font-big">Cook</span>Lab: Your Culinary Companion</h1>
         </div>
       <div className="flex-none gap-2">
+      <select className="select select-bordered w-1/4 m-2 bg-green-500 rounded-md border-solid border-2 border-black" value={type} onChange={handleTypeSearch}>
+            {types.map((type, _index) =>(
+                            <option><a>{type}</a></option>
+                        ))
+            }
+      </select>
       <div className="form-control">
           <input
             type="text"

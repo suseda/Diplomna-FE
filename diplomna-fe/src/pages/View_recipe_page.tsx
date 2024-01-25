@@ -7,6 +7,7 @@ import FetchRecipe from "../service/FetchRecipe";
 import { useParams } from "react-router-dom";
 import { AuthContextValue, Product, RecipeProps } from "../interface";
 import FetchProductGrams from "../service/FetchProductGrams";
+import IsFavourite from "../service/IsFavourite";
 
 function View_recipe_page() {
   const { id } = useParams();
@@ -26,6 +27,8 @@ function View_recipe_page() {
         setRecipe(data);
         const productsData = await FetchProductGrams(Number(id));
         setProducts(productsData);
+        const isFavRecipe = await IsFavourite(Number(id), auth.user.id);
+        setIsFav(isFavRecipe);
       } catch (error) {
         console.error('Error fetching recipe:', error);
       }

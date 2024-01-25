@@ -15,6 +15,7 @@ function CreateRecipePage()
 
     const [searchProduct,setSearchProduct] = useState("");
     const [productName,setProductName] = useState("");
+    const [isNewProductCreated,setIsNewProductCreated] = useState(false);
     const [databaseProducts,setDatabaseProducts] = useState<ProductNameProps[]>([]);
     const [createProductName,setCreateProductName] = useState("");
     const [isSaveDisabled, setIsSaveDisabled] = useState(false);
@@ -71,8 +72,9 @@ function CreateRecipePage()
 
     const HandleCreateProduct = async (name: string) =>
     {
-        console.log(name);
-        //await CreateProduct(name);
+        await CreateProduct(name);   
+        setIsNewProductCreated(!isNewProductCreated);
+
     }
 
     const removeProduct = (productNameToRemove: string) => {
@@ -88,8 +90,9 @@ function CreateRecipePage()
       setCreateProductName(word);
   
       const isProductExist = databaseProducts.some(
-        (product) => product.name.toLowerCase() === word
+        (product) => product.name.toLowerCase() === word.toLowerCase()
       );
+
   
       setIsSaveDisabled(isProductExist);
     };
@@ -121,12 +124,12 @@ function CreateRecipePage()
         };
     
         fetchData();
-      }, [databaseProducts]);
+      }, [isNewProductCreated]);
 
 
     return(
 
-        <div className="bg-gradient-to-r from-green-200 to-green-400">
+        <div className="bg-gradient-to-r from-green-200 to-green-400 h-screen">
             <div className="flex items-center p-2 justify-center">
                 <div className="w-2/3">
                     <input className="border-solid border-2 border-black rounded-md w-full mb-4" type="text" placeholder="Enter recipe name" value={recipeName} onChange={(e) => {setRecipeName(e.target.value)}}/>
@@ -155,7 +158,7 @@ function CreateRecipePage()
                     <h3 className="font-bold text-lg">Create new product!</h3>
                     <input className="py-4 rounded-md" type="text" placeholder="Product name" value={createProductName} onChange={CheckExistingProducts} />
                 </div>
-                <button className="btn disabled: bg-slate-500" disabled={isSaveDisabled} onClick={() =>{HandleCreateProduct(createProductName)}}>Save</button>
+                <button className="btn bg-green-500" disabled={isSaveDisabled} onClick={() =>{HandleCreateProduct(createProductName)}}>Save</button>
                 <form method="dialog" className="modal-backdrop">
                     <button>Close</button>
                 </form>

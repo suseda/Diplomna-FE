@@ -27,7 +27,7 @@ export interface PaginationProps {
   }
 
 export interface NavBarProps {
-    onSearch: (word: string) => void;
+    onSearch: (word: string, type: string) => void;
   }
 
 export interface CheckBoxGroupProps {
