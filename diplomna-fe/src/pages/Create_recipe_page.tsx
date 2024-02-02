@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
-import { Product, ProductNameProps } from "../interface";
+import { useContext, useEffect, useState } from "react";
+import { AuthContextValue, CreateRecipeInterface, Product, ProductNameProps } from "../interface";
 import CreateProduct from "../service/CreateProduct";
 import CheckBoxGroup from "../components/CheckBoxGroup";
 import ProductLabel from "../components/ProductLabel";
 import FetchProducts from "../service/FetchProducts";
+import AuthContext from "../api/AuthProvider";
+import CreateRecipeService from "../service/CreateRecipe";
+import CreateConnectionProductsRecipe from "../service/CreateConnectionProductsRecipe";
 
 function CreateRecipePage()
 {
@@ -23,16 +26,28 @@ function CreateRecipePage()
     const [grams,setGrams] = useState("");
     const [products,setProducts] = useState<Product[]>([]);
 
+    const { auth } = useContext(AuthContext) as AuthContextValue;
+    const user = auth.user;
 
-    const CreateRecipe = () =>
+
+    const CreateRecipe = async () =>
     {
         if(recipeName && description && type && timeForCooking && products.length > 0)
         {
-            console.log(recipeName);
-            console.log(description);
-            console.log(type);
-            console.log(timeForCooking);
-            console.log(products);
+            const newRecipe: CreateRecipeInterface = 
+            {
+                id: user.id,
+                name: recipeName,
+                likes: 0,
+                time_for_cooking: Number(timeForCooking),
+                type: type,
+                description: description,
+                owner_id: user.id,
+                products: products
+            };
+
+            await CreateRecipeService(user.id,newRecipe);
+
             setRecipeName("");
             setDescription("");
             setType("");
@@ -134,7 +149,7 @@ function CreateRecipePage()
                 <div className="w-2/3">
                     <input className="border-solid border-2 border-black rounded-md w-full mb-4" type="text" placeholder="Enter recipe name" value={recipeName} onChange={(e) => {setRecipeName(e.target.value)}}/>
                     <textarea className="border-solid border-2 border-black rounded-md w-full mb-4"  placeholder="Enter recipe description" value={description} onChange={(e) => {setDescription(e.target.value)}}/>
-                    <input className="border-solid border-2 border-black rounded-md w-full mb-4" type="text" placeholder="Enter time for cooking" value={timeForCooking} onChange={(e) => {setTimeForCooking(e.target.value)}}/>
+                    <input className="border-solid border-2 border-black rounded-md w-full mb-4" type="number" placeholder="Enter time for cooking" value={timeForCooking} onChange={(e) => {setTimeForCooking(e.target.value)}}/>
                     <div className="grid grid-rows-subgrid gap-4 row-span-3 rounded-md w-full mb-4">   
                         <CheckBoxGroup options={['Soup', 'Meat', 'Vegan', 'Dessert']} handleType={getType} />
                     </div>
@@ -143,7 +158,7 @@ function CreateRecipePage()
 
             <div className="divider divider-black">Products</div>
             <div>
-                <input className="border-solid border-2 border-black rounded-md w-1/5" type="text" placeholder="Enter grams" value={grams} onChange={(e) => setGrams(e.target.value)} />
+                <input className="border-solid border-2 border-black rounded-md w-1/5" type="number" placeholder="Enter grams" value={grams} onChange={(e) => setGrams(e.target.value)} />
                 <select className="select select-bordered w-1/4 m-2 bg-green-500 rounded-md border-solid border-2 border-black" value={productName} onChange={(e) => {setProductName(e.target.value)}}>
                     {databaseProducts.map((product, _index) =>(
                             <option><a>{product.name}</a></option>

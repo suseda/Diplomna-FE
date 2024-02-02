@@ -7,3 +7,4 @@ export const RECIPES = "/api/version1/recipe";
 export const USER_FAVOURITES = "api/version1/users/favourites"
 export const UPDATE_LIKES = "api/version1/recipe/likes"
 export const PRODUCT = "api/version1/product"
+export const RECIPE_PRODUCT = "api/version1/recipe_product"

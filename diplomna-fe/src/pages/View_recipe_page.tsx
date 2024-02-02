@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 import { AuthContextValue, Product, RecipeProps } from "../interface";
 import FetchProductGrams from "../service/FetchProductGrams";
 import IsFavourite from "../service/IsFavourite";
+import UpdateUserLikes from "../service/UpdateUserLikes";
+import IsLiked from "../service/IsLiked";
 
 function View_recipe_page() {
   const { id } = useParams();
@@ -17,18 +19,30 @@ function View_recipe_page() {
   const [isFav,setIsFav] = useState(false);
   const [products,setProducts] = useState<Product[]>([]);
   const user = auth.user;
-
   const [recipeLikes, setRecipeLikes] = useState(0);
+ 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await FetchRecipe(Number(id));
+
+        const fetchRecipePromise: RecipeProps = await FetchRecipe(Number(id));
+        const fetchProductsGramsPromise: Product[] = await FetchProductGrams(Number(id));
+        const isFavRecipePromise: boolean = await IsFavourite(Number(id), user.id);
+        const isLikedRecipePromise: boolean = await IsLiked(Number(id), user.id);
+        const [data, productsData,isFavRecipe, isLikedRecipe] = await Promise.all([
+          fetchRecipePromise,
+          fetchProductsGramsPromise,
+          isFavRecipePromise,
+          isLikedRecipePromise
+        ]);
+        
         setRecipe(data);
-        const productsData = await FetchProductGrams(Number(id));
         setProducts(productsData);
-        const isFavRecipe = await IsFavourite(Number(id), auth.user.id);
         setIsFav(isFavRecipe);
+        setIsLiked(isLikedRecipe)
+        setRecipeLikes(data.likes);
+
       } catch (error) {
         console.error('Error fetching recipe:', error);
       }
@@ -38,34 +52,35 @@ function View_recipe_page() {
   }, [id, recipeLikes]);
 
   const handleLike = async () => {
-    if (isLiked) {
-      let likes = recipeLikes + 1;
-      setRecipeLikes(likes);
-      await UpdateLikes(recipe.id,recipeLikes);
-      console.log("Recipe liked");
-      console.log(recipeLikes);
-    } else {
-      console.log(recipeLikes);
-      let likes = recipeLikes - 1;
-      setRecipeLikes(likes);
-      await UpdateLikes(recipe.id,recipeLikes);
-      console.log("Like removed");
-      console.log(recipeLikes);
-    }
+    let likes: number;
+    if (isLiked)
+      likes = recipeLikes - 1;
+    else
+      likes = recipeLikes + 1;
+
+    
+
+    const updateLikesPromise = await UpdateLikes(recipe.id,likes);
+    const updateLikesConnectionPromise = await UpdateUserLikes(user.id, recipe.id,!isLiked);
+
+    await Promise.all([
+      updateLikesPromise,
+      updateLikesConnectionPromise
+    ]);
+    
     setIsLiked(!isLiked);
+    setRecipeLikes(likes);
   };
 
   
   const handleAddToFavourites = async () => {
     await UpdateUserFavourites(user.id,recipe.id,true);
     setIsFav(true);
-    console.log("Recipe added to fav");
   };
 
   const handleRemoveFromFavourites = async () => {
     await UpdateUserFavourites(user.id,recipe.id,false);
     setIsFav(false);
-    console.log("Recipe removed from fav");
   }
 
   return (
@@ -77,7 +92,7 @@ function View_recipe_page() {
       </div>
 
       <div className="grid grid-rows-1 grid-cols-2 gap-4">
-        <div className="grid grid-rows-3">
+        <div className="grid grid-rows-4">
             <div className="grid-row-1 flex items-center justify-center">
               <h1>{recipe.likes}</h1>
               <button
@@ -100,6 +115,10 @@ function View_recipe_page() {
 
             <div className="grid-row-3 flex items-center justify-center">
               <h1>Recipe type: {recipe.type}</h1>
+            </div>
+
+            <div className="grid-row-4 flex items-center justify-center">
+              <h1>Time for cooking: {recipe.time_for_cooking} mins</h1>
             </div>
         </div>
         <div className="grid-cols-2 grid-flow-col gap-4 flex items-center justify-center">

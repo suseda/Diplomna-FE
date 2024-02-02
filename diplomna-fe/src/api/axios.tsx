@@ -5,6 +5,8 @@ const api = axios.create({
   baseURL : "http://localhost:8080"
 })
 
+const navigate = useNavigate(); 
+
 api.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem('authToken');
@@ -26,9 +28,7 @@ api.interceptors.response.use(
   (error) => {
     console.log(error);
     if (error.response || error.response.status === 401 || error.response.status === 403) {
-      console.log("here");
       sessionStorage.removeItem('authToken');
-      const navigate = useNavigate();
       navigate("/login");
     }
 

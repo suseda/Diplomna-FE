@@ -48,7 +48,7 @@ function Sign_up_page() {
             <h2 className="text-2xl font-bold mb-4">Sign In</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label htmlFor="name" className="block mb-1">name:</label>
+                    <label htmlFor="name" className="block mb-1">Name:</label>
                     <input 
                         type="text" 
                         placeholder="Enter your name" 

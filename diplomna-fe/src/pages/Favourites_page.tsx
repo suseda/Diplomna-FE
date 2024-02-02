@@ -24,7 +24,7 @@ function Favourites() {
   }, []);
 
   return (
-      <div className="top-0 w-full h-full flex flex-col items-center justify-center bg-gradient-to-r from-yellow-200 to-yellow-500">
+      <div className="top-0 h-full flex flex-col items-center justify-center bg-gradient-to-r from-yellow-200 to-yellow-500">
         <div className="mt-4 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg">
           <div className="flex items-center justify-center">
             <GiCook className="h-14 w-12" />

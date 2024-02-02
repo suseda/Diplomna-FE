@@ -7,7 +7,7 @@ const UpdateLikes = async(recipeId: number,likes: number) =>
     let NEW_URL = `${UPDATE_LIKES}/${recipeId}?likes=${likes}`;
 
     try {
-        const response = await axios.patch(NEW_URL, {
+        const response = await axios.patch(NEW_URL, null,{
           headers: { 'Content-Type': 'application/json' }
         });
     

@@ -1,5 +1,17 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
+export interface CreateRecipeInterface
+{
+    id: number;
+    name: string;
+    likes: number;
+    time_for_cooking: number;
+    type: string;
+    description: string;
+    owner_id: number;
+    products: Product[];
+}
+
 export interface RecipeProps {
     id: number;
     name: string;
