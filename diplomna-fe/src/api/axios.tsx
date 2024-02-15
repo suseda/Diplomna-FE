@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "../hooks/useZustand";
 
 const api = axios.create({
   baseURL : "http://localhost:8080"
 })
 
-const navigate = useNavigate(); 
+ 
 
 api.interceptors.request.use(
   (config) => {
@@ -29,6 +30,9 @@ api.interceptors.response.use(
     console.log(error);
     if (error.response || error.response.status === 401 || error.response.status === 403) {
       sessionStorage.removeItem('authToken');
+      const navigate = useNavigate();
+      const setIsUserAuth = useAuthStore((state) => state.setIsUserAuth);
+      setIsUserAuth(false);
       navigate("/login");
     }
 

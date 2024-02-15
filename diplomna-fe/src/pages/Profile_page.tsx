@@ -24,7 +24,7 @@ function Profile() {
   }, []);
 
   return (
-      <div className="top-0 flex flex-col items-center justify-center bg-gradient-to-r from-green-200 to-green-400">
+      <div className="top-0 min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-green-200 to-green-400">
         <div className="mt-4 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg">
           <div className="flex items-center justify-center">
             <GiCook className="h-14 w-12" />
@@ -58,7 +58,9 @@ function Profile() {
             ))}
             </div>
           ) : (
-            <h1 className="bg-green-500 rounded-md w-1/3">You don't have recipes yet</h1>
+            <div className="bg-green-500 rounded-md w-1/3 flex items-center justify-center">
+              <h1>You don't have recipes yet</h1>
+            </div>
           )}
         
       </div>

@@ -104,7 +104,8 @@ function View_recipe_page() {
             </div>
 
             <div className="grid-row-2 flex items-center justify-center">
-              <h1>Add to favourites</h1>
+              <h1>{isFav? "Remove from favourites" : "Add to favourites"}</h1>
+              
               <button
                 className="btn-circle bg-yellow-400 m-2 flex items-center justify-center"
                 onClick={isFav? handleRemoveFromFavourites : handleAddToFavourites}
