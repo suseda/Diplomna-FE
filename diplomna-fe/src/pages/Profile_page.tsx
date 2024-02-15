@@ -1,26 +1,21 @@
 import { GiCook } from "react-icons/gi";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext, AuthContextValue } from "../api/AuthProvider";
+import { AuthContext } from "../api/AuthProvider";
 import "../styles.css";
 import FetchUserRecipes from "../service/FetchUserRecipes";
 import Recipe from "../components/Recipe";
+import { AuthContextValue, RecipeProps } from "../interface";
 
-interface Recipe {
-  name: string;
-  likes: number;
-  type: string;
-  time_for_cooking: number;
-}
 
 function Profile() {
   const { auth } = useContext(AuthContext) as AuthContextValue;
 
-  const [userRecipes, setUserRecipes] = useState<Recipe[]>([]);
+  const [userRecipes, setUserRecipes] = useState<RecipeProps[]>([]);
 
   const user = auth.user;
 
   const fetchInfo = async () => {
-    const recipes: Recipe[] = await FetchUserRecipes(user.id);
+    const recipes: RecipeProps[] = await FetchUserRecipes(user.id);
     setUserRecipes(recipes);
   };
 
@@ -29,9 +24,8 @@ function Profile() {
   }, []);
 
   return (
-    <div className="relative">
-      <div className="absolute top-0 flex flex-col items-center justify-center bg-profile-img bg-cover">
-        <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg">
+      <div className="top-0 min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-green-200 to-green-400">
+        <div className="mt-4 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg">
           <div className="flex items-center justify-center">
             <GiCook className="h-14 w-12" />
           </div>
@@ -43,7 +37,7 @@ function Profile() {
             </div>
         </div>
 
-        <div className="bg-green-500 rounded-md w-1/3 mt-4 p-2 mb-4">
+        <div className="bg-green-500 rounded-md w-1/3 mt-4 p-2 mb-4 flex items-center justify-center">
           <h1 className="font-bold">Your recipes:</h1>
         </div>
 
@@ -53,22 +47,23 @@ function Profile() {
               {
                 (userRecipes.map((recipe, index) => (
                 <Recipe
-                  key={index}
-                  name={recipe.name}
-                  photoUrl={
-                    "https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg"
-                  }
-                  likes={recipe.likes}
-                  time_for_cooking={recipe.time_for_cooking}
-                />)
+                    key={index}
+                    name={recipe.name}
+                    photoUrl={"https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg"}
+                    likes={recipe.likes}
+                    time_for_cooking={recipe.time_for_cooking}
+                    type={recipe.type}
+                    description={recipe.description} 
+                    id={recipe.id}                />)
             ))}
             </div>
           ) : (
-            <h1 className="bg-green-500 rounded-md w-1/3">You don't have recipes yet</h1>
+            <div className="bg-green-500 rounded-md w-1/3 flex items-center justify-center">
+              <h1>You don't have recipes yet</h1>
+            </div>
           )}
         
       </div>
-    </div>
   );
 }
 

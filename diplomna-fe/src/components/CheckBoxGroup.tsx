@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import CheckBox from './CheckBox';
+import { CheckBoxGroupProps } from '../interface';
 
-interface CheckBoxGroupProps {
-  options: string[];
-}
 
-const CheckBoxGroup: React.FC<CheckBoxGroupProps> = ({ options }) => {
+const CheckBoxGroup: React.FC<CheckBoxGroupProps> = ({ options, handleType }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const handleOptionChange = (option: string) => {
     setSelectedOption(option);
+    handleType(option);
   };
 
   return (

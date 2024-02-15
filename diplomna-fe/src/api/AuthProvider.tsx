@@ -1,30 +1,6 @@
-import { ReactNode, createContext, useState, Dispatch, SetStateAction } from 'react';
+import {createContext, useState} from 'react';
+import { AuthContextValue,AuthProviderProps } from '../interface';
 
-export interface RecipeProps {
-  name: string;
-  photoUrl: string;
-  likes: number;
-  time_for_cooking: number;
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-export interface AuthContextValue {
-  auth: {
-    email: string;
-    accessToken: string;
-    user: User;
-  };
-  setAuth: Dispatch<SetStateAction<{
-    email: string;
-    accessToken: string;
-    user: User;
-  }>>;
-}
 
 export const AuthContext = createContext<AuthContextValue>({
   auth: {
@@ -39,9 +15,6 @@ export const AuthContext = createContext<AuthContextValue>({
   setAuth: () => {},
 });
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [auth, setAuth] = useState({

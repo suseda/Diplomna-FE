@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import logo from "../images/logo-no-background.png"
 import { useState } from "react";
-
-interface NavBarProps {
-  onSearch: (word: string) => void;
-}
+import { NavBarProps } from "../interface";
 
 function NavBar({onSearch}: NavBarProps) 
 {
 
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
+    const [type, setType] = useState("None");
+
+    const types = ["None","Soup", "Meat","Vegan","Dessert"];
 
     const handleLogOut = () =>
     {
@@ -28,11 +28,23 @@ function NavBar({onSearch}: NavBarProps)
       navigate("/favourites");
     }
 
+    const handleCreateRecipeEntry = () =>
+    {
+      navigate("/create-recipe");
+    }
+
     const handleSearch = (e: { target: { value: any; }; }) => {
       const word = e.target.value;
       setSearchTerm(word);
-      onSearch(word);
+      onSearch(word,type);
     };
+
+    const handleTypeSearch = (e: {target: {value: any};}) =>
+    {
+      const recipeType = e.target.value;
+      setType(recipeType);
+      onSearch(searchTerm,recipeType);
+    }
 
 
     return (
@@ -41,6 +53,12 @@ function NavBar({onSearch}: NavBarProps)
           <h1 className="bg-green-900 rounded-md px-5 py-5 text-sm font-big text-white"><span className="text-warning font-big">Cook</span>Lab: Your Culinary Companion</h1>
         </div>
       <div className="flex-none gap-2">
+      <select className="select select-bordered w-1/4 m-2 bg-green-500 rounded-md border-solid border-2 border-black" value={type} onChange={handleTypeSearch}>
+            {types.map((type, _index) =>(
+                            <option><a>{type}</a></option>
+                        ))
+            }
+      </select>
       <div className="form-control">
           <input
             type="text"
@@ -59,6 +77,7 @@ function NavBar({onSearch}: NavBarProps)
           <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-green-500 rounded-box w-52 text-center">
               <li><a onClick={handleProfileEntry}>Profile</a></li>
               <li><a onClick={handleFavouritesEntry}>Favourites</a></li>
+              <li><a onClick={handleCreateRecipeEntry}>Create Recipe</a></li>
               <li><a>Search by Products</a></li>
               <li><a className="bg-warning hover:bg-yellow-300" onClick={handleLogOut}>Log Out</a></li>
           </ul>

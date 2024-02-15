@@ -3,7 +3,7 @@ import loginSchema from "../validation/login_validation"
 import useAuth from "../hooks/useAuth"
 import api from "../api/axios";
 import { LOGIN_URL } from "../api/urls";
-import useBearStore from "../hooks/useZustand";
+import useAuthStore from "../hooks/useZustand";
 import { useNavigate } from "react-router-dom";
 
 
@@ -16,7 +16,7 @@ function Login_page() {
     })
 
     const [validationError, setValidationError] = useState('');
-    const setIsUserAuth = useBearStore((state) => state.setIsUserAuth);
+    const setIsUserAuth = useAuthStore((state) => state.setIsUserAuth);
     const navigate = useNavigate();
 
     const FormChange = (event: { target: { name: any; value: any; }; }) => {
@@ -65,7 +65,7 @@ function Login_page() {
 
 
     return (
-    <div className="min-h-screen flex items-center justify-center bg-green-400">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-200 to-green-500">
         <div className="bg-white p-8 shadow-md rounded-md">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
             <form onSubmit={handleSubmit}>

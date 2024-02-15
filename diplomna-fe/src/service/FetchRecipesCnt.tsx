@@ -1,15 +1,15 @@
 import axios from "../api/axios";
 import { RECIPES } from "../api/urls";
 
-const FetchRecipesCnt = async (searchedWord: string): Promise<number> => {
+const FetchRecipesCnt = async (searchedWord: string,type: string): Promise<number> => {
   try {
     
     let NEW_URL = `${RECIPES}`;
 
-    if(searchedWord !== "")
-      NEW_URL = `${RECIPES}/${searchedWord}`;
+    if(searchedWord !== "" || type !== "None")
+      NEW_URL = `${RECIPES}/getSearchedCnt?searchedWord=${searchedWord}&type=${type}`;
     
-    const response = await axios.get(RECIPES, {
+    const response = await axios.get(NEW_URL, {
       headers: { 'Content-Type': 'application/json' }
     });
 

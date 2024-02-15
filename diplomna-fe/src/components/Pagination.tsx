@@ -1,11 +1,7 @@
 import React from 'react';
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from 'react-icons/io';
+import { PaginationProps } from '../interface';
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-}
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
   const handlePrev = () => {
@@ -21,7 +17,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
   };
 
   return (
-    <div className="flex items-center justify-center mt-4 ">
+    <div className="flex items-center justify-center mt-4 bg-gradient-to-r">
       <button className="btn-circle bg-green-500 m-2 flex items-center justify-center" onClick={handlePrev}>
         <IoMdArrowRoundBack />
       </button>
