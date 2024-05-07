@@ -23,7 +23,7 @@ function CreateRecipePage()
     const [createProductName,setCreateProductName] = useState("");
     const [isSaveDisabled, setIsSaveDisabled] = useState(false);
     const [filterProducts,setFilterProducts] = useState<ProductNameProps[]>([]);
-    const [grams,setGrams] = useState("");
+    const [grams,setGrams] = useState<number>(0);
     const [products,setProducts] = useState<Product[]>([]);
 
     const { auth } = useContext(AuthContext) as AuthContextValue;
@@ -62,27 +62,38 @@ function CreateRecipePage()
     }
 
     const AddProduct = () => {
-        if(products.length > 0)
-        {
-            if (productName && grams) 
+        const productExists = products.some(
+            (product) => product.productName === productName
+          );
+    
+          if(productExists || grams <= 0)
+          {
+            console.log("Grams cannot be negative number or product with these name already exist");
+          }
+          else
+          { 
+            if(products.length > 0)
+            {
+                if (productName && grams) 
+                {
+                    let product: Product = {
+                        productName: productName,
+                        grams: grams,
+                    };
+                    setProducts((products) => [...products, product]);
+                }
+            }
+            else
             {
                 let product: Product = {
                     productName: productName,
                     grams: grams,
                 };
-                setProducts((products) => [...products, product]);
+                setProducts([product]);
             }
-        }
-        else
-        {
-            let product: Product = {
-                productName: productName,
-                grams: grams,
-            };
-            setProducts([product]);
-        }
-        setProductName("");
-        setGrams("");
+          }
+          setProductName("");
+          setGrams(0);
       };
 
     const HandleCreateProduct = async (name: string) =>
@@ -158,7 +169,7 @@ function CreateRecipePage()
 
             <div className="divider divider-black">Products</div>
             <div>
-                <input className="border-solid border-2 border-black rounded-md w-1/5" type="number" placeholder="Enter grams" value={grams} onChange={(e) => setGrams(e.target.value)} />
+                <input className="border-solid border-2 border-black rounded-md w-1/5" type="number" placeholder="Enter grams" value={grams} onChange={(e) => setGrams(Number(e.target.value))} />
                 <select className="select select-bordered w-1/4 m-2 bg-green-500 rounded-md border-solid border-2 border-black" value={productName} onChange={(e) => {setProductName(e.target.value)}}>
                     {databaseProducts.map((product, _index) =>(
                             <option><a>{product.name}</a></option>

@@ -16,8 +16,6 @@ const IsFavourite = async (recipeId: number, userId: number) => {
       return false;
     }
 
-    console.log(response.data);
-
     return response.data;
 
   } catch (error) {

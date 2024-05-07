@@ -81,7 +81,7 @@ export interface AuthProviderProps {
 export interface Product
 {
   productName: string,
-  grams: string,
+  grams: number,
   onRemove?: (arg: string) => void;
 } 
 
