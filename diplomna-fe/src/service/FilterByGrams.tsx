@@ -8,7 +8,7 @@ const FilterByGrams = async (products: Product[]) => {
 
     let NEW_URL = `${RECIPES}/filterByGrams`;
     console.log(products);
-    const response = await axios.post(NEW_URL,products, {
+    const response = await axios.post(NEW_URL, products, {
       headers: { 'Content-Type': 'application/json' }
     });
 

@@ -25,6 +25,7 @@ const SearchByGrams = () =>
     const filterFunction = async (productsFilter : Product[]) =>
     {
         const filteredRecipes: RecipeProps[] = await FilterByGrams(productsFilter);   
+        console.log(filteredRecipes);
         setRecipes(filteredRecipes);
     }
 
@@ -76,13 +77,18 @@ const SearchByGrams = () =>
         };
     
         fetchData();
-      }, [products]);
+      }, []);
 
 
     return(
         <div className="min-h-screen bg-gradient-to-r from-green-200 to-green-400 h-screen">
             <div className="flex items-center justify-center">
-            <input className="border-solid border-2 border-black rounded-md w-1/5" type="number" placeholder="Enter grams" value={grams} onChange={(e) => setGrams(Number(e.target.value))} />
+            <input className="border-solid border-2 border-black rounded-md w-1/5"  placeholder="Enter grams" value={grams} onChange={(e) => setGrams(Number(e.target.value))} onKeyPress={(e) => {
+    const keyCode = e.keyCode || e.which;
+    if (keyCode < 48 || keyCode > 57) {
+      e.preventDefault();
+    }
+  }}/>
                 <select className="select select-bordered w-1/4 m-2 bg-green-500 rounded-md border-solid border-2 border-black" value={productName} onChange={(e) => {setProductName(e.target.value)}}>
                     {products.map((product, _index) =>(
                             <option><a>{product.name}</a></option>
@@ -117,7 +123,7 @@ const SearchByGrams = () =>
                   type={recipe.type} 
                   description={recipe.description}            />
           ))) : (
-                <p>No filter apply.</p>
+                <p>No recipes found.</p>
                 )}
             </div>
         </div>
