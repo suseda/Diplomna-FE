@@ -12,7 +12,6 @@ const IsFavourite = async (recipeId: number, userId: number) => {
     });
 
     if (!response || !response.data) {
-      console.log("Error");
       return false;
     }
 

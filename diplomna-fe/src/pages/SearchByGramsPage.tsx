@@ -24,6 +24,7 @@ const SearchByGrams = () =>
 
     const filterFunction = async (productsFilter : Product[]) =>
     {
+        console.log(productsForFilter);
         const filteredRecipes: RecipeProps[] = await FilterByGrams(productsFilter);   
         console.log(filteredRecipes);
         setRecipes(filteredRecipes);
@@ -38,7 +39,6 @@ const SearchByGrams = () =>
       if(productExists || grams <= 0)
       {
         console.log("Grams cannot be negative number or product with these name already exist");
-        console.log(productsForFilter);
       }
       else
       { 
@@ -107,26 +107,26 @@ const SearchByGrams = () =>
                 )}
             </div>
             <div className="flex items-center justify-center">
-                <button className="btn bg-green-500 border-solid border-2 border-black w-1/2" disabled={ productsForFilter.length > 0 ? false : true} onClick={() =>{filterFunction(productsForFilter)}}>Filter</button>
+                <button className="btn bg-green-500 border-solid border-2 border-black w-1/2 m-2" disabled={ productsForFilter.length > 0 ? false : true} onClick={() =>{filterFunction(productsForFilter)}}>Filter</button>
             </div>
 
-            <div>
-            {Array.isArray(recipes) && recipes.length > 0 ? (
-              recipes.map((recipe, index) => (
-                <Recipe
-                  key={index}
-                  id={recipe.id}
-                  name={recipe.name}
-                  photoUrl={'https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg'}
-                  likes={recipe.likes}
-                  time_for_cooking={recipe.time_for_cooking} 
-                  type={recipe.type} 
-                  description={recipe.description}            />
-          ))) : (
-                <p>No recipes found.</p>
-                )}
-            </div>
-        </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 flex-grow bg-gradient-to-r">
+              {Array.isArray(recipes) && recipes.length > 0 ? (
+                recipes.map((recipe, index) => (
+                  <Recipe
+                    key={index}
+                    id={recipe.id}
+                    name={recipe.name}
+                    photo={recipe.photoText}
+                    likes={recipe.likes}
+                    time_for_cooking={recipe.time_for_cooking} 
+                    type={recipe.type} 
+                    description={recipe.description}            />
+            ))) : (
+                  <p>No recipes found.</p>
+                  )}
+              </div>
+          </div>
     );
 }
 
