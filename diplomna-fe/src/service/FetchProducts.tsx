@@ -4,7 +4,7 @@ import axios from "../api/axios";
 
 const FetchProducts = async() =>
 {
-    let NEW_URL = `${PRODUCT}`;
+    let NEW_URL = `${PRODUCT}/getProducts`;
 
     try {
         const response = await axios.get(NEW_URL, {

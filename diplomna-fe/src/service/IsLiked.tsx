@@ -12,11 +12,8 @@ const IsLiked = async (recipeId: number, userId: number) => {
     });
 
     if (!response || !response.data) {
-      console.log("Error");
       return false;
     }
-
-    console.log(response.data);
 
     return response.data;
 

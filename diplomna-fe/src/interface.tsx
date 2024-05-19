@@ -9,25 +9,28 @@ export interface CreateRecipeInterface
     type: string;
     description: string;
     owner_id: number;
+    photo: File;
     products: Product[];
 }
 
 export interface RecipeProps {
+    photo_text: string | undefined;
     id: number;
     name: string;
     likes: number;
     time_for_cooking: number;
     type: string;
+    photoText: string;
     description: string;
   }
 
 export  interface RecipePropsWithImg {
     id: number;
     name: string;
-    photoUrl: string;
     likes: number;
     time_for_cooking: number;
     type: string;
+    photo: string;
     description: string;
   }
 
@@ -81,7 +84,7 @@ export interface AuthProviderProps {
 export interface Product
 {
   productName: string,
-  grams: string,
+  grams: number,
   onRemove?: (arg: string) => void;
 } 
 

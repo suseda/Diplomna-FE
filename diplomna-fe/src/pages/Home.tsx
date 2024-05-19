@@ -13,19 +13,28 @@ function Home() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [searchedWord,setSearchWord] = useState<string>('');
   const [type, setType] = useState<string>("None");
+  const [loading, setLoading] = useState<boolean>(true); 
 
   const handleSearch = async (searchedWord: string, type: string) => {
+    setLoading(true); 
     setSearchWord(searchedWord);
     setType(type);
-    const fetchAllRecipesPromise = await FetchAllRecipes(searchedWord,type, currentPage);
-    const fetchRecipesCntPromise = await FetchRecipesCnt(searchedWord,type);
     const [pages, recipes] = await Promise.all([
-      fetchRecipesCntPromise,
-      fetchAllRecipesPromise
-    ]);
+      FetchRecipesCnt(searchedWord, type),
+      FetchAllRecipes(searchedWord, type, currentPage)
+  ]);
+
+    const newTotalPages = pages;
+    if (currentPage > newTotalPages) {
+      setCurrentPage(0);
+    }
 
     setSearchedRecipes(recipes);
-    setTotalPages(pages+1);
+    if(pages == 0)
+      setTotalPages(1)
+    else
+      setTotalPages(pages+1);
+    setLoading(false); 
   };
 
   const handlePageChange = (page: number) => {
@@ -37,27 +46,45 @@ function Home() {
   }, [currentPage]);
 
   return (
-    <div className='bg-gradient-to-r from-green-200 to-green-400'>
+    <div className='bg-gradient-to-r from-orange-200 to-orange-300'>
       <NavBar onSearch={handleSearch}/>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 flex-grow bg-gradient-to-r">
-        {Array.isArray(searchRecipes) && searchRecipes.length > 0 ? (
-          searchRecipes.map((recipe, index) => (
-            <Recipe
-              key={index}
-              id={recipe.id}
-              name={recipe.name}
-              photoUrl={'https://upload.wikimedia.org/wikipedia/commons/1/19/TaratorBg.jpg'}
-              likes={recipe.likes}
-              time_for_cooking={recipe.time_for_cooking} 
-              type={recipe.type} 
-              description={recipe.description}            />
-          ))
-        ) : (
-          <p>No recipes found.</p>
-        )}
-      </div>
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-      <Footer />
+      {loading ? ( 
+        <div className="flex justify-center items-center h-screen">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      ) : (
+        <div className='h-screen'>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 flex-grow bg-gradient-to-r">
+            {Array.isArray(searchRecipes) && searchRecipes.length > 0 ? (
+              searchRecipes.map((recipe, index) => (
+                <Recipe
+                  key={index}
+                  id={recipe.id}
+                  name={recipe.name}
+                  photo={recipe.photoText}
+                  likes={recipe.likes}
+                  time_for_cooking={recipe.time_for_cooking} 
+                  type={recipe.type} 
+                  description={recipe.description} />
+              ))
+            ) : (
+              <div className='h-screen'>
+                <p>No recipes found.</p>
+              </div>
+            )}
+          </div>
+          <div className='bottom-0'>
+          {Array.isArray(searchRecipes) && searchRecipes.length > 0 ? (
+              <div>
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                <Footer />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,17 +1,16 @@
-import { FC } from 'react';
+import { FC} from 'react';
 import { FaHeart, FaClock } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { RecipePropsWithImg } from '../interface';
 
-const Recipe: FC<RecipePropsWithImg> = ({id ,name, photoUrl, likes, time_for_cooking }) => 
+const Recipe: FC<RecipePropsWithImg> = ({id ,name, photo ,likes, time_for_cooking }) => 
 {
-
   return ( 
     <div className="card w-96 bg-base-100 shadow-xl border border-green-500 flex items-center justify-center p-4 rounded-md m-4 max-w-xs relative">
         <div className="bg-green-500 rounded-md flex items-center justify-center absolute -top-4 w-60 min-w-fit-content">
-          <h2 className="card-title text-center" >{name}</h2>
+          <h2 className="card-title text-center font-bold" >{name}</h2>
         </div>
-        <figure className="rounded-md"><img src={photoUrl} alt="Recipe photo" /></figure>
+        <figure className="rounded-md"><img src={"data:image/jpeg;base64," + photo} alt="Recipe photo" /></figure>
         <div className="card-body">
             <div className="card-actions justify-end w-max">
                 <div className="flex items-center">

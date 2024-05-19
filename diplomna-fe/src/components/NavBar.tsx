@@ -33,6 +33,11 @@ function NavBar({onSearch}: NavBarProps)
       navigate("/create-recipe");
     }
 
+    const handleSearchByGramsEntry = () =>
+    {
+      navigate("/search-by-grams");
+    }
+
     const handleSearch = (e: { target: { value: any; }; }) => {
       const word = e.target.value;
       setSearchTerm(word);
@@ -50,12 +55,12 @@ function NavBar({onSearch}: NavBarProps)
     return (
     <div className="w-full navbar bg-green-500">
       <div className="flex-1">
-          <h1 className="bg-green-900 rounded-md px-5 py-5 text-sm font-big text-white"><span className="text-warning font-big">Cook</span>Lab: Your Culinary Companion</h1>
+          <h1 className=" rounded-md px-5 py-5 text-bg font-bold text-white"><span className="text-warning font-big">Cook</span>Lab: Your Culinary Companion</h1>
         </div>
       <div className="flex-none gap-2">
       <select className="select select-bordered w-1/4 m-2 bg-green-500 rounded-md border-solid border-2 border-black" value={type} onChange={handleTypeSearch}>
-            {types.map((type, _index) =>(
-                            <option><a>{type}</a></option>
+            {types.map((type, index) =>(
+                            <option key={index}><a>{type}</a></option>
                         ))
             }
       </select>
@@ -78,7 +83,7 @@ function NavBar({onSearch}: NavBarProps)
               <li><a onClick={handleProfileEntry}>Profile</a></li>
               <li><a onClick={handleFavouritesEntry}>Favourites</a></li>
               <li><a onClick={handleCreateRecipeEntry}>Create Recipe</a></li>
-              <li><a>Search by Products</a></li>
+              <li><a onClick={handleSearchByGramsEntry}>Search by Products</a></li>
               <li><a className="bg-warning hover:bg-yellow-300" onClick={handleLogOut}>Log Out</a></li>
           </ul>
         </div>

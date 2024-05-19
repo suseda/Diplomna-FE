@@ -6,7 +6,7 @@ import ProductLabel from "../components/ProductLabel";
 import FetchProducts from "../service/FetchProducts";
 import AuthContext from "../api/AuthProvider";
 import CreateRecipeService from "../service/CreateRecipe";
-import CreateConnectionProductsRecipe from "../service/CreateConnectionProductsRecipe";
+
 
 function CreateRecipePage()
 {
@@ -15,6 +15,7 @@ function CreateRecipePage()
     const [description,setDescription] = useState("");
     const [type,setType] = useState("");
     const [timeForCooking,setTimeForCooking] = useState("");
+    const [photo,setPhoto] = useState<File | null>(null);
 
     const [searchProduct,setSearchProduct] = useState("");
     const [productName,setProductName] = useState("");
@@ -23,7 +24,7 @@ function CreateRecipePage()
     const [createProductName,setCreateProductName] = useState("");
     const [isSaveDisabled, setIsSaveDisabled] = useState(false);
     const [filterProducts,setFilterProducts] = useState<ProductNameProps[]>([]);
-    const [grams,setGrams] = useState("");
+    const [grams,setGrams] = useState<number>(0);
     const [products,setProducts] = useState<Product[]>([]);
 
     const { auth } = useContext(AuthContext) as AuthContextValue;
@@ -32,7 +33,7 @@ function CreateRecipePage()
 
     const CreateRecipe = async () =>
     {
-        if(recipeName && description && type && timeForCooking && products.length > 0)
+        if(recipeName && description && type && timeForCooking && products.length > 0 && photo)
         {
             const newRecipe: CreateRecipeInterface = 
             {
@@ -43,6 +44,7 @@ function CreateRecipePage()
                 type: type,
                 description: description,
                 owner_id: user.id,
+                photo: photo,
                 products: products
             };
 
@@ -52,6 +54,7 @@ function CreateRecipePage()
             setDescription("");
             setType("");
             setTimeForCooking("");
+            setPhoto(null);
             setProducts([]);
 
         }
@@ -62,30 +65,46 @@ function CreateRecipePage()
     }
 
     const AddProduct = () => {
-        if(products.length > 0)
-        {
-            if (productName && grams) 
+        const productExists = products.some(
+            (product) => product.productName === productName
+          );
+    
+          if(productExists || grams <= 0)
+          {
+            console.log("Grams cannot be negative number or product with these name already exist");
+          }
+          else
+          { 
+            if(products.length > 0)
+            {
+                if (productName && grams) 
+                {
+                    let product: Product = {
+                        productName: productName,
+                        grams: grams,
+                    };
+                    setProducts((products) => [...products, product]);
+                }
+            }
+            else
             {
                 let product: Product = {
                     productName: productName,
                     grams: grams,
                 };
-                setProducts((products) => [...products, product]);
+                setProducts([product]);
             }
-        }
-        else
-        {
-            let product: Product = {
-                productName: productName,
-                grams: grams,
-            };
-            setProducts([product]);
-        }
-        setProductName("");
-        setGrams("");
+          }
+          setProductName("");
+          setGrams(0);
       };
 
-    const HandleCreateProduct = async (name: string) =>
+      const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedPhoto = e.target.files ? e.target.files[0] : null;
+        setPhoto(selectedPhoto);
+    };
+
+    const handleCreateProduct = async (name: string) =>
     {
         await CreateProduct(name);   
         setIsNewProductCreated(!isNewProductCreated);
@@ -144,21 +163,35 @@ function CreateRecipePage()
 
     return(
 
-        <div className="bg-gradient-to-r from-green-200 to-green-400 h-screen">
+        <div className="bg-gradient-to-r from-orange-200 to-orange-300 h-screen">
             <div className="flex items-center p-2 justify-center">
                 <div className="w-2/3">
                     <input className="border-solid border-2 border-black rounded-md w-full mb-4" type="text" placeholder="Enter recipe name" value={recipeName} onChange={(e) => {setRecipeName(e.target.value)}}/>
                     <textarea className="border-solid border-2 border-black rounded-md w-full mb-4"  placeholder="Enter recipe description" value={description} onChange={(e) => {setDescription(e.target.value)}}/>
-                    <input className="border-solid border-2 border-black rounded-md w-full mb-4" type="number" placeholder="Enter time for cooking" value={timeForCooking} onChange={(e) => {setTimeForCooking(e.target.value)}}/>
+                    <input className="border-solid border-2 border-black rounded-md w-full mb-4" placeholder="Enter time for cooking in minutes" value={timeForCooking} onChange={(e) => {setTimeForCooking(e.target.value)}}  
+                    onKeyPress={(e) => {
+                    const keyCode = e.keyCode || e.which;
+                    if (keyCode < 48 || keyCode > 57) {
+                      e.preventDefault();
+                    }
+  }}/>
                     <div className="grid grid-rows-subgrid gap-4 row-span-3 rounded-md w-full mb-4">   
                         <CheckBoxGroup options={['Soup', 'Meat', 'Vegan', 'Dessert']} handleType={getType} />
                     </div>
+
+                    <input type="file" onChange={handlePhotoChange} />
                 </div>
             </div>
 
             <div className="divider divider-black">Products</div>
             <div>
-                <input className="border-solid border-2 border-black rounded-md w-1/5" type="number" placeholder="Enter grams" value={grams} onChange={(e) => setGrams(e.target.value)} />
+                <input className="border-solid border-2 border-black rounded-md w-1/5"  placeholder="Enter grams" value={grams} onChange={(e) => setGrams(Number(e.target.value))} 
+                onKeyPress={(e) => {
+                const keyCode = e.keyCode || e.which;
+                if (keyCode < 48 || keyCode > 57) {
+                  e.preventDefault();
+                }
+  }} />
                 <select className="select select-bordered w-1/4 m-2 bg-green-500 rounded-md border-solid border-2 border-black" value={productName} onChange={(e) => {setProductName(e.target.value)}}>
                     {databaseProducts.map((product, _index) =>(
                             <option><a>{product.name}</a></option>
@@ -173,7 +206,7 @@ function CreateRecipePage()
                     <h3 className="font-bold text-lg">Create new product!</h3>
                     <input className="py-4 rounded-md" type="text" placeholder="Product name" value={createProductName} onChange={CheckExistingProducts} />
                 </div>
-                <button className="btn bg-green-500" disabled={isSaveDisabled} onClick={() =>{HandleCreateProduct(createProductName)}}>Save</button>
+                <button className="btn bg-green-500" disabled={isSaveDisabled} onClick={() =>{handleCreateProduct(createProductName)}}>Save</button>
                 <form method="dialog" className="modal-backdrop">
                     <button>Close</button>
                 </form>
