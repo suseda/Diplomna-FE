@@ -59,8 +59,8 @@ function NavBar({onSearch}: NavBarProps)
         </div>
       <div className="flex-none gap-2">
       <select className="select select-bordered w-1/4 m-2 bg-green-500 rounded-md border-solid border-2 border-black" value={type} onChange={handleTypeSearch}>
-            {types.map((type, _index) =>(
-                            <option><a>{type}</a></option>
+            {types.map((type, index) =>(
+                            <option key={index}><a>{type}</a></option>
                         ))
             }
       </select>

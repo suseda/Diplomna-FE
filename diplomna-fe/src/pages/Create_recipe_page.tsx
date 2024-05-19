@@ -163,7 +163,7 @@ function CreateRecipePage()
 
     return(
 
-        <div className="bg-gradient-to-r from-green-200 to-green-400 h-screen">
+        <div className="bg-gradient-to-r from-orange-200 to-orange-300 h-screen">
             <div className="flex items-center p-2 justify-center">
                 <div className="w-2/3">
                     <input className="border-solid border-2 border-black rounded-md w-full mb-4" type="text" placeholder="Enter recipe name" value={recipeName} onChange={(e) => {setRecipeName(e.target.value)}}/>

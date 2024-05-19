@@ -27,7 +27,7 @@ api.interceptors.response.use(
   (response) => response,
   
   (error) => {
-    if (error.response || error.response.status === 401 || error.response.status === 403) {
+    if (error.response || error.response === 401 || error.response === 403) {
       sessionStorage.removeItem('authToken');
       const navigate = useNavigate();
       const setIsUserAuth = useAuthStore((state) => state.setIsUserAuth);

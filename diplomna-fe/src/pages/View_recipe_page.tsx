@@ -10,6 +10,7 @@ import FetchProductGrams from "../service/FetchProductGrams";
 import IsFavourite from "../service/IsFavourite";
 import UpdateUserLikes from "../service/UpdateUserLikes";
 import IsLiked from "../service/IsLiked";
+import Footer from "../components/Footer";
 
 function View_recipe_page() {
   const { id } = useParams();
@@ -79,7 +80,7 @@ function View_recipe_page() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-green-200 to-green-300">
+    <div className="bg-gradient-to-r from-orange-200 to-orange-300">
       {loading ? (
         <div className="flex items-center justify-center h-screen">
           <span className="loading loading-spinner loading-lg"></span>
@@ -88,7 +89,7 @@ function View_recipe_page() {
         <>
           <div className="grid grid-cols-6 grid-rows-1 gap-4 mb-4">
             <div className="col-start-2 col-span-4 row-start-1 row-span-1 bg-green-500 rounded-md h-auto flex items-center justify-center">
-              <h1>{recipe.name}</h1>
+              <h1 className="text-bg font-bold">{recipe.name}</h1>
             </div>
           </div>
 
@@ -140,8 +141,8 @@ function View_recipe_page() {
             <p>No products.</p>
           )}
           <div className="divider divider-success">Description</div>
-          <div>{recipe.description}</div>
-          <div className="divider divider-success">Comments</div>
+          <div className="m-2 flex items-center justify-center">{recipe.description}</div>
+          <Footer></Footer>
         </>
       )}
     </div>

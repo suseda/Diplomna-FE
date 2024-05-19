@@ -19,12 +19,10 @@ function Home() {
     setLoading(true); 
     setSearchWord(searchedWord);
     setType(type);
-    const fetchAllRecipesPromise = await FetchAllRecipes(searchedWord,type, currentPage);
-    const fetchRecipesCntPromise = await FetchRecipesCnt(searchedWord,type);
     const [pages, recipes] = await Promise.all([
-      fetchRecipesCntPromise,
-      fetchAllRecipesPromise
-    ]);
+      FetchRecipesCnt(searchedWord, type),
+      FetchAllRecipes(searchedWord, type, currentPage)
+  ]);
 
     const newTotalPages = pages;
     if (currentPage > newTotalPages) {
@@ -32,7 +30,10 @@ function Home() {
     }
 
     setSearchedRecipes(recipes);
-    setTotalPages(pages+1);
+    if(pages == 0)
+      setTotalPages(1)
+    else
+      setTotalPages(pages+1);
     setLoading(false); 
   };
 
@@ -45,7 +46,7 @@ function Home() {
   }, [currentPage]);
 
   return (
-    <div className='bg-gradient-to-r from-green-200 to-green-400'>
+    <div className='bg-gradient-to-r from-orange-200 to-orange-300'>
       <NavBar onSearch={handleSearch}/>
       {loading ? ( 
         <div className="flex justify-center items-center h-screen">
@@ -67,12 +68,20 @@ function Home() {
                   description={recipe.description} />
               ))
             ) : (
-              <p>No recipes found.</p>
+              <div className='h-screen'>
+                <p>No recipes found.</p>
+              </div>
             )}
           </div>
           <div className='bottom-0'>
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-            <Footer />
+          {Array.isArray(searchRecipes) && searchRecipes.length > 0 ? (
+              <div>
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                <Footer />
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       )}

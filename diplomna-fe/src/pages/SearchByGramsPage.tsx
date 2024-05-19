@@ -25,9 +25,10 @@ const SearchByGrams = () =>
     const filterFunction = async (productsFilter : Product[]) =>
     {
         console.log(productsForFilter);
-        const filteredRecipes: RecipeProps[] = await FilterByGrams(productsFilter);   
-        console.log(filteredRecipes);
-        setRecipes(filteredRecipes);
+        const filteredRecipes: RecipeProps[] = await FilterByGrams(productsFilter);  
+        const uniqueRecipes = Array.from(new Set(filteredRecipes.map(recipe => JSON.stringify(recipe)))).map(json => JSON.parse(json)); 
+        console.log(uniqueRecipes);
+        setRecipes(uniqueRecipes);
     }
 
     const AddProduct = () => {
@@ -81,7 +82,7 @@ const SearchByGrams = () =>
 
 
     return(
-        <div className="min-h-screen bg-gradient-to-r from-green-200 to-green-400 h-screen">
+        <div className="min-h-screen bg-gradient-to-r from-orange-200 to-orange-300 h-screen">
             <div className="flex items-center justify-center">
             <input className="border-solid border-2 border-black rounded-md w-1/5"  placeholder="Enter grams" value={grams} onChange={(e) => setGrams(Number(e.target.value))} onKeyPress={(e) => {
     const keyCode = e.keyCode || e.which;

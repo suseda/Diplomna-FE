@@ -8,7 +8,7 @@ import { AuthContextValue, RecipeProps } from "../interface";
 
 function Profile() {
   const { auth } = useContext(AuthContext) as AuthContextValue;
-  const [loading, setLoading] = useState<boolean>(true); // State to track loading status
+  const [loading, setLoading] = useState<boolean>(true); 
 
   const [userRecipes, setUserRecipes] = useState<RecipeProps[]>([]);
   const user = auth.user;
@@ -20,7 +20,7 @@ function Profile() {
     } catch (error) {
       console.error("Error fetching user recipes:", error);
     } finally {
-      setLoading(false); // Set loading to false when data fetching is complete or encountered an error
+      setLoading(false); 
     }
   };
 
@@ -29,7 +29,7 @@ function Profile() {
   }, []);
 
   return (
-    <div className="top-0 min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-green-200 to-green-400">
+    <div className="top-0 min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-orange-200 to-orange-300">
       <div className="mt-4 p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg">
         <div className="flex items-center justify-center">
           <GiCook className="h-14 w-12" />
